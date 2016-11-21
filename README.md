@@ -2,6 +2,8 @@
 
 http-request-queue is a small module used to limit the number of concurrent, "in-flight", http requests. It wraps the popular [request.js](https://github.com/request/request) javascript HTTP request library. This was built for [Sia-UI](https://github.com/NebulousLabs/Sia-UI) to manage a large number of concurrent API requests on systems with very low file descriptor limits (macOS defaults at 256!).
 
+http-request-queue exposes a default function which takes one parameter, limit, which determines how many requests are allowed to run concurrently. If this limit is reached and another request is made, the additional request will be delayed until the current number of in flight requests dips below the limit.
+
 ## Example Usage
 
 ```js
