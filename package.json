@@ -1,6 +1,6 @@
 {
   "name": "http-request-queue",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Wrapper for request.js that limits the amount of concurrent requests.",
   "main": "lib/rqueue.js",
   "scripts": {
