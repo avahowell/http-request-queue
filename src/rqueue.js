@@ -11,23 +11,23 @@ const reqpromise = (opts) => new Promise((resolve, reject) => {
 	})
 })
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
 const queue = (size = 10) => {
 	let inflight = 0
 	const request = async (opts) => {
-		if (inflight < size) {
-			inflight++
-			let res
-			try {
-				res = await reqpromise(opts)
-			} catch (e) {
-				inflight--
-				throw e
-			}
+		while (inflight >= size) {
+			await sleep(retryPollSpeed)
+		}
+		inflight++
+		try {
+			const res = await reqpromise(opts)
 			inflight--
 			return res
+		} catch (e) {
+			inflight--
+			throw e
 		}
-		await new Promise((resolve) => setTimeout(resolve, retryPollSpeed))
-		return request(opts)
 	}
 
 	return {
