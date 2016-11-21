@@ -16,7 +16,13 @@ const queue = (size = 10) => {
 	const request = async (opts) => {
 		if (inflight < size) {
 			inflight++
-			const res = await reqpromise(opts)
+			let res
+			try {
+				res = await reqpromise(opts)
+			} catch (e) {
+				inflight--
+				throw e
+			}
 			inflight--
 			return res
 		}

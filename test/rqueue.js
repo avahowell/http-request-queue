@@ -80,6 +80,20 @@ describe('rqueue', () => {
 
 		expect(requestCount).to.equal(20)
 	})
+	it('decrements inflight if a call fails', async () => {
+		const queue = rqueue(10)
+		nock('http://localhost/')
+			.get('/')
+			.replyWithError('bad')
+
+		try {
+			await queue.request('http://localhost/')
+		} catch (e) {
+		}
+
+		expect(requestCount).to.equal(1)
+		expect(queue.inflightRequests()).to.equal(0)
+	})
 	it('returns res and body objects on success', async () => {
 		const queue = rqueue(10)
 		nock('http://localhost/')
