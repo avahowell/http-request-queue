@@ -14,7 +14,7 @@ const queue = rqueue(10)
 // request.js `opts` parameter, which can be an object or a string. See the
 // upstream request.js documentation for more information. request returns a
 // promise which can be used directly, or with async/await.
-rqueue.request('http://localhost/foo')
+queue.request('http://localhost/foo')
 	.then((res) => {
 		// res is an object containing the fields { response, body }
 		console.log(res.body)
