@@ -80,6 +80,30 @@ describe('rqueue', () => {
 
 		expect(requestCount).to.equal(20)
 	})
+	it('can take many http requests and queue them successfully', async function() {
+		this.timeout(10000)
+
+		const queue = rqueue(10)
+		let complete = 0
+		for (let i = 0; i < 1000; i++) {
+			nock('http://localhost/')
+				.get('/')
+				.delay(Math.random())
+				.reply(200)
+
+			queue.request('http://localhost/')
+				.then(() => {
+					complete++
+				})
+
+			expect(requestCount <= 10).to.be.true
+			expect(queue.inflightRequests() <= 10).to.be.true
+		}
+
+		while (complete < 1000) {
+			await new Promise((resolve) => setTimeout(resolve, 100))
+		}
+	})
 	it('decrements inflight if a call fails', async () => {
 		const queue = rqueue(10)
 		nock('http://localhost/')
