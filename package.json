@@ -28,5 +28,12 @@
   },
   "dependencies": {
     "request": "^2.79.0"
-  }
+  },
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/johnathanhowell/http-request-queue.git"
+	},
+	"bugs": {
+		"url": "https://github.com/johnathanhowell/http-request-queue/issues"
+	}
 }
